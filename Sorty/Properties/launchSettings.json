@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Sorty": {
+      "commandName": "Project",
+      "commandLineArgs": "-i Calculator.cs_ -o CalculatorOut.cs_"
+    }
+  }
+}

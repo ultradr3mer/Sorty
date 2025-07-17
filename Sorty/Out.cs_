@@ -1,0 +1,63 @@
+using System;
+
+namespace Demo
+{
+    public class Calculator
+    {
+        private double _lastResult;
+        public Calculator()
+        {
+            _lastResult = 0;
+        }
+
+        public string Version => "1.0";
+        public double LastResult => _lastResult;
+
+        private void OnCalculationDone()
+        {
+            CalculationDone?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Run()
+        {
+            Console.WriteLine("Einfacher Taschenrechner");
+            Console.WriteLine("Gib eine Operation ein (z. B. 3 + 4):");
+            var input = Console.ReadLine();
+            if (input == null)
+                return;
+            var result = Evaluate(input);
+            Console.WriteLine($"Ergebnis: {result}");
+        }
+
+        private double Add(double a, double b)
+        {
+            return a + b;
+        }
+
+        private double Multiply(double a, double b)
+        {
+            return a * b;
+        }
+
+        public double Evaluate(string expression)
+        {
+            var parts = expression.Split(' ');
+            if (parts.Length != 3)
+                return 0;
+            double x = double.Parse(parts[0]);
+            string op = parts[1];
+            double y = double.Parse(parts[2]);
+            double result = op switch
+            {
+                "+" => Add(x, y),
+                "*" => Multiply(x, y),
+                _ => 0
+            };
+            _lastResult = result;
+            OnCalculationDone();
+            return result;
+        }
+
+        public event EventHandler? CalculationDone;
+    }
+}
